@@ -105,7 +105,7 @@ h1{font-size:1.8rem}.intro{font-size:.86rem}.bubble{font-size:.96rem;padding:13p
       <div class="frame-content">
         <div class="kicker">♡ incoming message from cecilia.exe ♡</div>
         <h1>HI BABYYYY!!</h1>
-        <p class="intro">This is a reminder that I am always always here with you baby~</p>
+        <p class="intro">This is a reminder that I am always always here with you baby~ 💗 I’ll pop up with a new message every 3 minutes, so you’ll get another little reminder from me soon.</p>
         <div class="bubble" id="message" aria-live="polite">关关难过关关过 💗\nJia you my baby!!</div>
         <div class="signature" id="signature">from your best baby ♡</div>
         <div class="actions">
@@ -117,15 +117,15 @@ h1{font-size:1.8rem}.intro{font-size:.86rem}.bubble{font-size:.96rem;padding:13p
         <section class="reasons-panel" id="reasons-panel" hidden>
           <div class="kicker">just between us ♡</div>
           <h2>10 reasons why I love you</h2>
-          <p id="reason-intro">Press to reveal them one by one, baby.</p>
+          <p id="reason-intro">Your first reason is ready — tap the button below, baby.</p>
           <div class="reason-card" id="reason-card">Your first reason is waiting here. 💗</div>
           <div class="reason-count" id="reason-count">0 / 10 reasons revealed</div>
-          <button class="secret" id="next-reason" disabled>Next reason unlocks in 03:00</button>
+          <button class="secret" id="next-reason">Reveal first reason ♡</button>
           <div class="signoff">I love you baby ♡</div>
         </section>
-        <div class="timerline"><span>下一个小惊喜 in</span><strong id="countdown">03:00</strong></div>
+        <div class="timerline"><span>💌 Next message from me in</span><strong id="countdown">03:00</strong></div>
         <div class="progress"><div class="bar" id="bar"></div></div>
-        <div class="tiny">Your messages, shuffled just for you ♡</div>
+        <div class="tiny">This countdown is for the message above — it changes automatically every 3 minutes. ♡</div>
       </div>
     </div>
     <div class="frame-base"><span class="base-decor">🥐</span><span class="cat">🐈</span><span class="cat two">🐱</span><span>counting down till I see you ♡</span><span class="base-decor right">🥐</span></div>
@@ -184,7 +184,7 @@ function openPopup(kind){
   actionPopup.hidden=false;
   if(kind==="hug"){
     popupTitle.textContent="HUGGGG ♡";
-    popupContent.innerHTML='<div class="hug-emoji">🫂</div><div class="hug-caption">HUGGGG ♡</div>';
+    popupContent.innerHTML='<img src="assets/cecilia-hug.png" alt="Cecilia chibi reaching out for a hug"><div class="hug-caption">HUGGGG ♡</div>';
   }else if(kind==="kiss"){
     popupTitle.textContent="MUAHHH 💋";
     popupContent.innerHTML='<img src="assets/cecilia-chibi.png" alt="Cecilia chibi giving you a kiss"><div class="hug-caption">MUAHHH 💋</div>';
@@ -230,7 +230,7 @@ function reasonCountdown(){
   nextReason.textContent="Next reason unlocks in "+String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
 }
 function revealNextReason(){
-  if(nextReason.disabled||reasonIndex>=reasons.length)return;
+  if((nextReason.disabled && reasonIndex>0)||reasonIndex>=reasons.length)return;
   reasonCard.textContent=reasons[reasonIndex];
   reasonIndex++;
   reasonCount.textContent=reasonIndex+" / 10 reasons revealed";

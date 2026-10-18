@@ -60,6 +60,17 @@ h1{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(1.65r
 @keyframes baseBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes floatAround{0%,100%{transform:translate(0,0) rotate(-4deg)}18%{transform:translate(24px,40px) rotate(4deg)}36%{transform:translate(5px,125px) rotate(-2deg)}55%{transform:translate(20px,215px) rotate(5deg)}73%{transform:translate(-8px,110px) rotate(-4deg)}88%{transform:translate(10px,30px) rotate(3deg)}}
 @keyframes reveal{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+
+.popup-overlay{position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;padding:20px;background:#51394766;backdrop-filter:blur(5px);animation:reveal .18s ease-out}
+.popup-overlay[hidden]{display:none}
+.popup-card{position:relative;max-width:min(460px,92vw);max-height:88vh;overflow:auto;background:#fffafc;border:3px solid #f3a5c3;border-radius:24px;padding:18px;box-shadow:0 22px 70px #51394755;text-align:center}
+.popup-card img{display:block;max-width:100%;max-height:68vh;object-fit:contain;border-radius:15px;margin:0 auto}
+.popup-title{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:900;font-size:1.15rem;margin:4px 34px 12px}
+.popup-close{position:absolute;right:9px;top:8px;width:36px;height:36px;border:0;border-radius:50%;background:#ffe4ee;color:#a63e6b;font-size:1.25rem;font-weight:900}
+.hug-emoji{font-size:clamp(6rem,22vw,9rem);line-height:1.2;animation:hugPop .45s cubic-bezier(.2,1.4,.4,1)}
+.hug-caption{font-weight:900;color:#a63e6b;margin-top:8px}
+@keyframes hugPop{0%{transform:scale(.3) rotate(-20deg);opacity:0}75%{transform:scale(1.15) rotate(5deg);opacity:1}100%{transform:scale(1)}}
+
 @media(max-width:680px){
 .page{padding:12px 9px 28px}.topbar{margin-bottom:10px}.status{font-size:.67rem;padding:7px 9px}
 .scene{padding:9px 9px 0;border-radius:22px 22px 13px 13px}
@@ -122,6 +133,14 @@ h1{font-size:1.8rem}.intro{font-size:.86rem}.bubble{font-size:.96rem;padding:13p
   <div class="desk-shadow"></div>
   <div class="footer">Made by me, for you. ♡<br>I challenge you to do this ah! ♡</div>
 </main>
+
+<div class="popup-overlay" id="action-popup" hidden role="dialog" aria-modal="true" aria-labelledby="popup-title">
+  <div class="popup-card">
+    <button class="popup-close" id="popup-close" aria-label="Close popup">×</button>
+    <div class="popup-title" id="popup-title">HUGGGG ♡</div>
+    <div id="popup-content"><div class="hug-emoji">🫂</div><div class="hug-caption">HUGGGG ♡</div></div>
+  </div>
+</div>
 <script>
 const messages = [
 "关关难过关关过",
@@ -147,9 +166,9 @@ const messages = [
 "我怎麼一直拉肚子 原來是想你一便又一便"
 ];
 const specials={
-hug:["Huggies time!! 来抱一下～抱完继续努力哦 🫂","想给你一个真的抱抱。先欠着，见面的时候补给你！","抱抱充电中……好了！电量 +100%，继续加油 baby 💗"],
-kiss:["MUAH!! 亲亲送到～请签收 😚","啵啵啵！好了，今天的亲亲额度先给你一点。","先隔空亲一下，等见面再补很多个。💋"],
-stress:["压力很大吼 baby？先休息一下下，喝口水。慢慢来，一件一件做。","Baby, 不要一个人硬撑哦。先呼吸一下，做完一件就算一件。","辛苦啦～你已经很努力了。先松一下肩膀，不要把自己绷那么紧。"]
+hug:["Huggies time!"],
+kiss:["我爱你baby"],
+stress:["FKKKKKKKKK"]
 };
 let bag=[],remaining=180;
 const messageEl=document.getElementById("message"),countdownEl=document.getElementById("countdown"),bar=document.getElementById("bar");
@@ -157,10 +176,31 @@ function shuffle(){bag=[...messages];for(let i=bag.length-1;i>0;i--){let j=Math.
 function hearts(){const symbols=["💗","💕","✨","♡","🥐"];for(let i=0;i<6;i++){const e=document.createElement("span");e.className="spark";e.textContent=symbols[Math.floor(Math.random()*symbols.length)];e.style.left=(12+Math.random()*76)+"vw";e.style.top=(25+Math.random()*60)+"vh";document.body.appendChild(e);setTimeout(()=>e.remove(),950);}}
 function show(t){messageEl.textContent=t;hearts();}
 function next(){if(!bag.length)shuffle();show(bag.pop());remaining=180;}
-function special(k){const a=specials[k];show(a[Math.floor(Math.random()*a.length)]);remaining=180;}
-document.getElementById("hug").addEventListener("click",()=>special("hug"));
-document.getElementById("kiss").addEventListener("click",()=>special("kiss"));
-document.getElementById("stress").addEventListener("click",()=>special("stress"));
+function special(k){const a=specials[k];messageEl.textContent=a[Math.floor(Math.random()*a.length)];hearts();}
+const actionPopup=document.getElementById("action-popup");
+const popupTitle=document.getElementById("popup-title");
+const popupContent=document.getElementById("popup-content");
+function openPopup(kind){
+  actionPopup.hidden=false;
+  if(kind==="hug"){
+    popupTitle.textContent="HUGGGG ♡";
+    popupContent.innerHTML='<div class="hug-emoji">🫂</div><div class="hug-caption">HUGGGG ♡</div>';
+  }else if(kind==="kiss"){
+    popupTitle.textContent="MUAHHH 💋";
+    popupContent.innerHTML='<img src="assets/cecilia-chibi.png" alt="Cecilia chibi giving you a kiss"><div class="hug-caption">MUAHHH 💋</div>';
+  }else{
+    popupTitle.textContent="FKKKKKKKKK";
+    popupContent.innerHTML='<img src="assets/fk-bear.jpg" alt="Bear standing upright with mouth open"><div class="hug-caption">FKKKKKKKKK</div>';
+  }
+  hearts();
+}
+function closePopup(){actionPopup.hidden=true;}
+document.getElementById("hug").addEventListener("click",()=>openPopup("hug"));
+document.getElementById("kiss").addEventListener("click",()=>openPopup("kiss"));
+document.getElementById("stress").addEventListener("click",()=>openPopup("stress"));
+document.getElementById("popup-close").addEventListener("click",closePopup);
+actionPopup.addEventListener("click",e=>{if(e.target===actionPopup)closePopup();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closePopup();});
 const rb=document.getElementById("reasons"),rp=document.getElementById("reasons-panel");
 const nextReason=document.getElementById("next-reason");
 const reasonCard=document.getElementById("reason-card");
@@ -189,23 +229,35 @@ function reasonCountdown(){
   nextReason.disabled=true;
   nextReason.textContent="Next reason unlocks in "+String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
 }
-rb.addEventListener("click",()=>{
-  const open=rp.hidden;rp.hidden=!open;rb.setAttribute("aria-expanded",String(open));
-  rb.textContent=open?"💗 close our little secret":"💌 do you wanna know 10 reasons why i love you?";
-  if(open){rp.scrollIntoView({behavior:"smooth",block:"nearest"});hearts();}
-});
-nextReason.addEventListener("click",()=>{
+function revealNextReason(){
   if(nextReason.disabled||reasonIndex>=reasons.length)return;
   reasonCard.textContent=reasons[reasonIndex];
   reasonIndex++;
   reasonCount.textContent=reasonIndex+" / 10 reasons revealed";
   hearts();
-  if(reasonIndex>=reasons.length){nextReason.disabled=true;nextReason.textContent="All 10 revealed ♡";return;}
+  if(reasonIndex>=reasons.length){nextReason.disabled=true;nextReason.textContent="All 10 revealed";return;}
   reasonUnlockAt=Date.now()+180000;
   reasonCountdown();
+  if(reasonInterval)clearInterval(reasonInterval);
   reasonInterval=setInterval(reasonCountdown,1000);
+}
+rb.addEventListener("click",()=>{
+  if(rp.hidden){
+    rp.hidden=false;
+    rb.setAttribute("aria-expanded","true");
+    rb.textContent="💗 close our little secret";
+    rp.scrollIntoView({behavior:"smooth",block:"nearest"});
+    // First reason appears immediately on the first opening; no initial wait.
+    if(reasonIndex===0)revealNextReason();
+    hearts();
+  }else{
+    rp.hidden=true;
+    rb.setAttribute("aria-expanded","false");
+    rb.textContent="💌 do you wanna know 10 reasons why i love you?";
+  }
 });
-shuffle();show(messages[0]);
+nextReason.addEventListener("click",revealNextReason);
+shuffle();messageEl.textContent=messages[0];
 setInterval(()=>{remaining--;if(remaining<=0)next();countdownEl.textContent=String(Math.floor(remaining/60)).padStart(2,"0")+":"+String(remaining%60).padStart(2,"0");bar.style.width=(remaining/180*100)+"%";},1000);
 </script>
 </body>

@@ -36,7 +36,7 @@ h1{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:clamp(1.65r
 .tiny{font-size:.7rem;color:var(--muted);margin-top:9px}
 .reasons-panel{position:relative;z-index:4;margin-top:12px;padding:17px 18px;border:1px solid #f3c7d8;border-radius:18px;background:linear-gradient(145deg,#fff8fb,#fffaf0);animation:reveal .3s ease-out}
 .reasons-panel[hidden]{display:none}.reasons-panel h2{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;margin:7px 0;font-size:1.35rem}.reasons-panel p{font-size:.88rem;line-height:1.5;color:var(--muted)}
-.reasons-panel ol{padding-left:24px;margin:0}.reasons-panel li{padding:6px 0 6px 3px;line-height:1.45;border-bottom:1px solid #f8e3eb}.reasons-panel li:last-child{border:0}.reasons-panel li::marker{color:var(--deep);font-weight:900}.signoff{margin-top:12px;color:var(--deep);font-weight:900;line-height:1.5}
+.reason-card{background:#fff1f6;border:1px solid #f7c9dc;border-radius:15px;padding:16px;line-height:1.55;font-weight:900;min-height:70px}.reason-count{margin-top:10px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--muted);font-size:.78rem}.secret:disabled{opacity:.62;cursor:not-allowed;transform:none;filter:none}.signoff{margin-top:12px;color:var(--deep);font-weight:900;line-height:1.5}
 .frame-base{height:72px;margin:0 -1px;position:relative;display:flex;align-items:center;justify-content:center;border-radius:0 0 15px 15px;background:linear-gradient(#f3d8b7,#e4bd94);border-top:5px solid #d0a57d;color:#8a6248;font-size:.78rem;font-weight:900;letter-spacing:.04em;box-shadow:inset 0 2px #fff4dd}
 .base-decor{position:absolute;bottom:18px;left:4%;font-size:clamp(2rem,5vw,3.6rem);filter:drop-shadow(0 4px 2px #8c5f3a25);animation:baseBob 3s ease-in-out infinite}
 .base-decor.right{left:auto;right:5%;animation-delay:1.2s}
@@ -86,7 +86,7 @@ h1{font-size:1.8rem}.intro{font-size:.86rem}.bubble{font-size:.96rem;padding:13p
     <div class="frame-window">
       <div class="window-glow"></div>
       <div class="note left">记得喝水!!<br>记得休息!!<br>我在这边～ ♡</div>
-      <div class="note right">GOOD THINGS<br>TAKE TIME<br>加油!! ♡</div>
+      <div class="note right">YOU CAN DO IT! ♡</div>
       <div class="doodle d1">💗</div><div class="doodle d2">✦</div><div class="doodle d3">💕</div><div class="doodle d4">♡</div>
       <div class="sticker sticker-a"><img src="assets/cecilia-chibi.png" alt="Chibi Cecilia floating in the frame"></div>
       <div class="sticker sticker-b"><img src="assets/cecilia-chibi.png" alt=""></div>
@@ -94,85 +94,57 @@ h1{font-size:1.8rem}.intro{font-size:.86rem}.bubble{font-size:.96rem;padding:13p
       <div class="frame-content">
         <div class="kicker">♡ incoming message from cecilia.exe ♡</div>
         <h1>HI BABYYYY!!</h1>
-        <p class="intro">A tiny pop-up from your girlfriend. No need to reply, just wanted to kacau you a bit hehe.</p>
+        <p class="intro">This is a reminder that I am always always here with you baby~</p>
         <div class="bubble" id="message" aria-live="polite">关关难过关关过 💗\nJia you my baby!!</div>
-        <div class="signature" id="signature">— from your favourite person (me lah) ♡</div>
+        <div class="signature" id="signature">from your best baby ♡</div>
         <div class="actions">
           <button class="action" id="hug">🫂 Huggies</button>
           <button class="action" id="kiss">💋 Kiss me</button>
-          <button class="action" id="stress">🥺 Stress ah?</button>
+          <button class="action" id="stress">🥺 FKKKKKKKK</button>
         </div>
-        <button class="secret" id="reasons" aria-expanded="false" aria-controls="reasons-panel">🔐 偷偷告诉你… 10个我喜欢你的理由 ♡</button>
+        <button class="secret" id="reasons" aria-expanded="false" aria-controls="reasons-panel">💌 do you wanna know 10 reasons why i love you?</button>
         <section class="reasons-panel" id="reasons-panel" hidden>
-          <div class="kicker">only for you okay ♡</div>
+          <div class="kicker">just between us ♡</div>
           <h2>10 reasons why I love you</h2>
-          <p>In case today is a lot, here's something I wanted you to know.</p>
-          <ol>
-            <li>You make me feel safe to tell you anything.</li>
-            <li>You are so good and patient with babies.</li>
-            <li>You care and love so much for your parents.</li>
-            <li>You are always paying attention about how others may feel.</li>
-            <li>You are so funny you make me laugh all the time.</li>
-            <li>You are so handsome and hot. 😚</li>
-            <li>You will always try to make sure my every needs are met.</li>
-            <li>You try your best to talk to my grandma and dad.</li>
-            <li>You made a brave decision for us and you are trying your best to go through this hardship for us.</li>
-            <li>You remember the little things I tell you.</li>
-          </ol>
-          <div class="signoff">I love you baby. Okay don't cry at work hor HAHAHA 💗</div>
+          <p id="reason-intro">Press to reveal them one by one, baby.</p>
+          <div class="reason-card" id="reason-card">Your first reason is waiting here. 💗</div>
+          <div class="reason-count" id="reason-count">0 / 10 reasons revealed</div>
+          <button class="secret" id="next-reason" disabled>Next reason unlocks in 03:00</button>
+          <div class="signoff">I love you baby ♡</div>
         </section>
         <div class="timerline"><span>下一个小惊喜 in</span><strong id="countdown">03:00</strong></div>
         <div class="progress"><div class="bar" id="bar"></div></div>
-        <div class="tiny">Messages rotate every 3 mins · no repeats till we've used them all ♡</div>
+        <div class="tiny">Your messages, shuffled just for you ♡</div>
       </div>
     </div>
-    <div class="frame-base"><span class="base-decor">🥐</span><span class="cat">🐈</span><span class="cat two">🐱</span><span>SHIO PAN & CATS CLUB ♡</span><span class="base-decor right">🥐</span></div>
+    <div class="frame-base"><span class="base-decor">🥐</span><span class="cat">🐈</span><span class="cat two">🐱</span><span>counting down till I see you ♡</span><span class="base-decor right">🥐</span></div>
   </section>
   <div class="desk-shadow"></div>
-  <div class="footer">Made by me, for you. ♡<br>加油 baby～ 做完工就可以来找我了 hehe.</div>
+  <div class="footer">Made by me, for you. ♡<br>I challenge you to do this ah! ♡</div>
 </main>
 <script>
 const messages = [
-"关关难过关关过 💗\nJia you my baby!!",
+"关关难过关关过",
 "我爱你baby",
 "Huggies time!",
 "Imissyousomuch",
 "世上有三种尺，直尺，三角尺，还有I love you very much",
 "跟你玩剪刀石头布，我永远只能出剪刀，因为你就是我的拳布",
-"The universe is sending you a good day tomorrow",
+"The universe is sending you a good day",
 "Congratulations! Something GOOD will happen to you in October because you are the best baby",
 "Hello my best baby I miss you",
 "Baby i love you",
 "Jia you my baby!",
 "You can do itttttttt",
-"宝宝～还在努力 work ah? 记得喝水啦，不要一直盯着电脑，眼睛会累的！我在这边陪你～加油加油 💗",
-"Baby, 做到这里已经很不错了啦！慢慢来，不要给自己太大压力哦。",
-"辛苦啦 baby～等你忙完再来找我，我给你抱抱。先认真做工！",
-"不要一直皱眉啦，皱眉就不可爱了（虽然你怎样都帅啦）😌",
-"记得起来动一动，伸懒腰～不要变成 office furniture HAHAHA",
-"你已经做得很好了!! 真的啦，不要一直觉得自己还不够。",
-"我没有不理你哦，我是在这里静静陪你做工 hehe",
-"想你了……（但是先 work 啦！）",
-"你是我的充电宝，没有你我会没电；所以你也要记得充电，喝水！",
-"你知道你跟什么饮料最像吗？我的每日必需品。很土对不对 HAHAHA",
-"你是不是有魔法？不然为什么我每次想到你，嘴角就自己上扬。",
-"你知道我为什么不跟你玩捉迷藏吗？因为我一辈子都想找到你。哎哟很土！",
-"你是我的 Wi-Fi 吗？为什么我一靠近你就有感觉。😂",
-"你是不是偷偷吃了可爱多？不然怎么可以可爱到犯规。",
-"我最近在找一个人……就是那个让我一直想念的人。哦，原来是你。",
-"你知道我最喜欢哪一天吗？有你在的每一天。好啦这句真的很老土。",
-"如果你是薯条，我就是番茄酱，因为我真的很想跟你配一对。🍟",
-"你是我的导航吗？因为我的心一直自动转向你。",
-"我本来想早点睡的，结果脑袋一直在 replay 你的脸。你赔我睡眠！",
-"你是不是有磁铁？为什么我一直被你吸引。很冷 hor HAHAHA",
-"宝～不要怕，事情一件一件来。你先搞定眼前这个，其他的慢慢再说。",
-"今天的任务：做一点是一点，喝水，吃饭，记得想我一下。最后一个最重要。",
-"Baby, 你已经很努力了啦。不要对自己那么凶，可以吗？",
-"我如果现在在你旁边，一定会先抱你一下，然后叫你继续做工。很公平吧 😚",
-"报告！你的女朋友现在有一点想你。请问可以申请一个 hug 吗？",
-"你今天已经很棒了，真的。好了夸完了，继续加油！",
-"忙完记得跟我讲哦，不然我会以为你被 Excel 吞掉了。",
-"如果今天很烦，就先深呼吸一下。慢慢来 baby，我在这里。"
+"Good job Jeric boy!",
+"Er shu work the hard job ah",
+"Er shu jie jie love you very much",
+"Finish this and we go eat bread!",
+"Charge me baby~",
+"Do you want me to come tonight? 💕",
+"我是九，你是三，除了你，还是你。",
+"在披風跟砒霜之間，我選擇了披薩。",
+"我怎麼一直拉肚子 原來是想你一便又一便"
 ];
 const specials={
 hug:["Huggies time!! 来抱一下～抱完继续努力哦 🫂","想给你一个真的抱抱。先欠着，见面的时候补给你！","抱抱充电中……好了！电量 +100%，继续加油 baby 💗"],
@@ -190,7 +162,49 @@ document.getElementById("hug").addEventListener("click",()=>special("hug"));
 document.getElementById("kiss").addEventListener("click",()=>special("kiss"));
 document.getElementById("stress").addEventListener("click",()=>special("stress"));
 const rb=document.getElementById("reasons"),rp=document.getElementById("reasons-panel");
-rb.addEventListener("click",()=>{const open=rp.hidden;rp.hidden=!open;rb.setAttribute("aria-expanded",String(open));rb.textContent=open?"💗 好啦不给你看了 (骗你的)":"🔐 偷偷告诉你… 10个我喜欢你的理由 ♡";if(open){rp.scrollIntoView({behavior:"smooth",block:"nearest"});hearts();}});
+const nextReason=document.getElementById("next-reason");
+const reasonCard=document.getElementById("reason-card");
+const reasonCount=document.getElementById("reason-count");
+const reasons=[
+"You make me feel safe to tell you anything.",
+"You are so good and patient with babies.",
+"You care and love so much for your parents.",
+"You are always paying attention about how others may feel.",
+"You are so funny you make me laugh all the time.",
+"You are so handsome and hot. 😚",
+"You will always try to make sure my every needs are met.",
+"You try your best to talk to my grandma and dad.",
+"You made a brave decision for us and you are trying your best to go through this hardship for us.",
+"You remember the little things I tell you."
+];
+let reasonIndex=0,reasonUnlockAt=0,reasonInterval=null;
+function reasonCountdown(){
+  const left=Math.max(0,Math.ceil((reasonUnlockAt-Date.now())/1000));
+  if(left<=0){
+    nextReason.disabled=reasonIndex>=reasons.length;
+    nextReason.textContent=reasonIndex>=reasons.length?"All 10 revealed ♡":"Reveal next reason ♡";
+    if(reasonInterval){clearInterval(reasonInterval);reasonInterval=null;}
+    return;
+  }
+  nextReason.disabled=true;
+  nextReason.textContent="Next reason unlocks in "+String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");
+}
+rb.addEventListener("click",()=>{
+  const open=rp.hidden;rp.hidden=!open;rb.setAttribute("aria-expanded",String(open));
+  rb.textContent=open?"💗 close our little secret":"💌 do you wanna know 10 reasons why i love you?";
+  if(open){rp.scrollIntoView({behavior:"smooth",block:"nearest"});hearts();}
+});
+nextReason.addEventListener("click",()=>{
+  if(nextReason.disabled||reasonIndex>=reasons.length)return;
+  reasonCard.textContent=reasons[reasonIndex];
+  reasonIndex++;
+  reasonCount.textContent=reasonIndex+" / 10 reasons revealed";
+  hearts();
+  if(reasonIndex>=reasons.length){nextReason.disabled=true;nextReason.textContent="All 10 revealed ♡";return;}
+  reasonUnlockAt=Date.now()+180000;
+  reasonCountdown();
+  reasonInterval=setInterval(reasonCountdown,1000);
+});
 shuffle();show(messages[0]);
 setInterval(()=>{remaining--;if(remaining<=0)next();countdownEl.textContent=String(Math.floor(remaining/60)).padStart(2,"0")+":"+String(remaining%60).padStart(2,"0");bar.style.width=(remaining/180*100)+"%";},1000);
 </script>

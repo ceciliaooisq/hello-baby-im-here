@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff0f6">
+  <title>Baby, I'm Here ♡</title>
+  <style>
+    :root { --pink:#f6a9c7; --deep:#c94f82; --pale:#fff0f6; --cream:#fffaf6; --ink:#563c49; --muted:#987888; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; font-family: ui-rounded, "Trebuchet MS", system-ui, sans-serif; color:var(--ink);
+      background: radial-gradient(circle at 10% 10%, #fff 0 4%, transparent 22%), linear-gradient(135deg,#fff6fa,#fff2e9 55%,#f7f0ff); }
+    .wrap { width:min(980px,100%); margin:auto; padding:24px 18px 36px; }
+    header { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:18px; }
+    .brand { font-weight:900; letter-spacing:.02em; font-size:clamp(1.05rem,3vw,1.35rem); }
+    .pill { border:1px solid #f3c6d8; background:#ffffffb8; border-radius:999px; padding:9px 13px; color:var(--deep); font-size:.82rem; font-weight:800; }
+    .hero { display:grid; grid-template-columns: minmax(0,1fr) minmax(230px,.85fr); gap:22px; align-items:center; }
+    .message-card { background:#ffffffd9; border:1px solid #f7d5e2; border-radius:28px; padding:clamp(22px,4vw,38px); box-shadow:0 16px 45px #bd70931a; position:relative; }
+    .eyebrow { color:var(--deep); text-transform:uppercase; letter-spacing:.14em; font-size:.72rem; font-weight:900; }
+    h1 { font-size:clamp(2rem,6vw,3.6rem); line-height:1.02; margin:12px 0; letter-spacing:-.045em; }
+    .sub { color:var(--muted); line-height:1.6; margin:0 0 22px; }
+    .bubble { background:var(--pale); border:1px solid #f8d4e2; border-radius:20px 20px 20px 5px; padding:18px; font-size:clamp(1.05rem,3vw,1.32rem); font-weight:800; line-height:1.45; min-height:116px; display:flex; align-items:center; }
+    .from { color:var(--muted); font-size:.86rem; margin-top:12px; }
+    .actions { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin-top:18px; }
+    button { cursor:pointer; border:0; border-radius:15px; padding:12px 10px; font:inherit; font-size:.9rem; font-weight:900; transition:transform .15s,filter .15s; }
+    button:hover { transform:translateY(-2px); filter:brightness(1.02); }
+    button:active { transform:scale(.98); }
+    .primary { background:var(--deep); color:white; box-shadow:0 6px 15px #c94f8230; }
+    .secondary { background:#ffe3ee; color:#a93e6b; }
+    .soft { background:#f1e7ff; color:#73539b; }
+    .character { position:relative; text-align:center; }
+    .character img { width:100%; max-width:420px; height:auto; filter:drop-shadow(0 18px 22px #b56b8c20); mix-blend-mode:multiply; border-radius:24px; }
+    .float { position:absolute; font-size:clamp(1.5rem,4vw,2.3rem); animation:bob 2.5s ease-in-out infinite; }
+    .f1 { top:8%; right:6%; } .f2 { top:35%; left:0; animation-delay:.5s; } .f3 { bottom:8%; right:12%; animation-delay:1s; }
+    @keyframes bob { 0%,100%{transform:translateY(0) rotate(-7deg)} 50%{transform:translateY(-10px) rotate(8deg)} }
+    .timerline { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:16px; color:var(--muted); font-size:.82rem; }
+    .progress { height:6px; background:#fbe0eb; border-radius:99px; overflow:hidden; margin-top:9px; }
+    .bar { height:100%; width:100%; background:linear-gradient(90deg,#f3a3c2,#c77bdf); border-radius:99px; transition:width 1s linear; }
+    .footer { text-align:center; color:var(--muted); font-size:.83rem; margin-top:28px; line-height:1.6; }
+    .spark { position:fixed; pointer-events:none; z-index:10; animation:pop 900ms ease-out forwards; font-size:22px; }
+    @keyframes pop { from{opacity:1;transform:translateY(0) scale(.7)} to{opacity:0;transform:translateY(-75px) scale(1.5)} }
+    .tiny { font-size:.75rem; color:var(--muted); margin-top:10px; }
+    .secret-button { width:100%; margin-top:10px; background:#fff7d9; color:#8a6630; border:1px dashed #e8ca7b; }
+    .reasons-panel { margin-top:12px; padding:20px; border:1px solid #f3c7d8; border-radius:20px; background:linear-gradient(145deg,#fff8fb,#fffaf0); animation:reveal .35s ease-out; }
+    .reasons-panel h2 { margin:8px 0; font-size:1.45rem; }
+    .reasons-intro { margin:0 0 12px; color:var(--muted); font-size:.9rem; line-height:1.5; }
+    .reasons-panel ol { padding-left:24px; margin:0; }
+    .reasons-panel li { padding:7px 0 7px 4px; line-height:1.45; border-bottom:1px solid #f8e3eb; }
+    .reasons-panel li:last-child { border-bottom:0; }
+    .reasons-panel li::marker { color:var(--deep); font-weight:900; }
+    .reasons-signoff { margin-top:14px; color:var(--deep); font-weight:900; line-height:1.5; }
+    @keyframes reveal { from {opacity:0; transform:translateY(-7px)} to {opacity:1; transform:translateY(0)} }
+    @media(max-width:680px) { .wrap{padding:16px 13px 28px} header{margin-bottom:12px} .hero{grid-template-columns:1fr;gap:4px} .character{grid-row:1} .character img{max-width:290px;max-height:320px;object-fit:contain} .message-card{padding:22px;border-radius:24px} h1{font-size:2.45rem} .sub{margin-bottom:17px} .actions{gap:7px} button{font-size:.82rem;padding:12px 6px} .footer{margin-top:20px} }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after{animation:none!important;transition:none!important} }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="brand">💗 Baby, I'm Here ♡</div>
+      <div class="pill">your tiny work buddy</div>
+    </header>
+    <section class="hero">
+      <div class="message-card">
+        <div class="eyebrow">a little message from your girl</div>
+        <h1>Hi baby.<br>You've got this.</h1>
+        <p class="sub">A tiny reminder to breathe, take things one step at a time, and remember that someone is cheering for you. (It's me. Obviously.)</p>
+        <div class="bubble" id="message" aria-live="polite">关关难过关关过。My baby can do hard things. 💗</div>
+        <div class="from" id="signature">— your girlfriend, who misses you lots ♡</div>
+        <div class="actions">
+          <button class="secondary" id="hug">🫂 Huggies</button>
+          <button class="primary" id="kiss">💋 Kiss me</button>
+          <button class="soft" id="stress">🥺 I'm stressed</button>
+        </div>
+        <button class="secret-button" id="reasons" aria-expanded="false" aria-controls="reasons-panel">🔐 A little secret… tap for 10 reasons I love you</button>
+        <section class="reasons-panel" id="reasons-panel" hidden>
+          <div class="eyebrow">just between you and me ♡</div>
+          <h2>10 reasons I love you</h2>
+          <p class="reasons-intro">In case work gets loud, here's a little reminder of why you're so special to me.</p>
+          <ol id="reasons-list">
+            <li>You make me feel safe to tell you anything.</li>
+            <li>You are so good and patient with babies.</li>
+            <li>You care and love so much for your parents.</li>
+            <li>You are always paying attention to how others may feel.</li>
+            <li>You are so funny — you make me laugh all the time.</li>
+            <li>You are so handsome and hot. Obviously. 😚</li>
+            <li>You will always try to make sure my every need is met.</li>
+            <li>You try your best to talk to my grandma and dad.</li>
+            <li>You made a brave decision for us, and you're trying your best to go through this hardship for us.</li>
+            <li>You remember the little things I tell you.</li>
+          </ol>
+          <div class="reasons-signoff">I love you, baby. More than this little website can fit. 💗</div>
+        </section>
+        <div class="timerline"><span id="timer-label">Next surprise in</span><strong id="countdown">03:00</strong></div>
+        <div class="progress"><div class="bar" id="bar"></div></div>
+        <div class="tiny">Messages shuffle without repeating until the whole list has had a turn.</div>
+      </div>
+      <div class="character">
+        <span class="float f1">💖</span><span class="float f2">✦</span><span class="float f3">💕</span>
+        <img src="assets/cecilia-chibi.png" alt="Cute chibi sticker of your girlfriend with long dark hair and pink glasses">
+      </div>
+    </section>
+    <div class="footer">Made with lots and lots of love, just for you. <br>Now go be amazing, baby. And remember to drink water. ♡</div>
+  </main>
+  <script>
+    const messages = [
+      "关关难过关关过。My baby can do hard things. 💗",
+      "我爱你baby。This is your regularly scheduled reminder.",
+      "Huggies time!! *wraps you in the biggest virtual hug* 🫂",
+      "Imissyousomuchhhhh. Come back to me when you're done being a hardworking adult.",
+      "世上有三种尺，直尺，三角尺，还有 I love you very much. HAHAHA.",
+      "跟你玩剪刀石头布，我永远只能出剪刀，因为你就是我的拳布. 🥹",
+      "The universe is sending you a good day tomorrow. And a hug from me right now.",
+      "Congratulations! Something GOOD will happen to you in October because you are the best baby. ✨",
+      "Hello my best baby. I miss you. Please accept 999 kisses.",
+      "Baby i love you. That's the message. That's the whole email. No further action required. 💌",
+      "Jia you my baby!!! One task at a time. You don't have to conquer the whole world today.",
+      "YOU CAN DO ITTTTTTTT!! Your tiny cheerleader believes in you!! 📣",
+      "Baby, breathe in for 4 seconds, breathe out slowly. Okay, now imagine me stealing a hug.",
+      "Your to-do list is temporary. My love for you is permanent. Hehe.",
+      "Alert 🚨 Your girlfriend has detected excessive stress. Prescribing 3 kisses immediately.",
+      "你已经很棒了。不要因为今天很难，就忘记自己有多厉害。❤️",
+      "Today's forecast: 99% chance of you being loved by me.",
+      "If I could teleport into your office right now, I'd hug you until your shoulders relax.",
+      "You don't have to do everything perfectly. Just do the next little thing, baby.",
+      "Official prediction: good things are coming your way. I am the universe's cutest messenger. 🔮",
+      "Baby, even the strongest person deserves a break. Drink some water and unclench your jaw, okay?",
+      "I am SO proud of you. Not just for what you get done, but for how hard you're trying.",
+      "Knock knock. Who's there? Your girlfriend. I brought love and zero productivity. HAHAHA.",
+      "Imagine me beside you, holding your hand under the table. Okay, back to work now. 😚",
+      "You are my favourite human. Even when you're busy. Especially when you need a little love.",
+      "One day you'll look back at this stressful week and realise you got through it. I believe in you.",
+      "Baby, you are not a machine. Take a tiny break. The spreadsheets can wait 60 seconds.",
+      "Sending you one million kisses. Please allow 3–5 business seconds for delivery. 💋",
+      "你值得所有好的事情。不是因为你今天做得够多，而是因为你本来就值得。",
+      "Reminder: someone thinks you're handsome, capable, and ridiculously lovable. It's me again. 😌",
+      "If hard work made you handsome, you'd be the most handsome man in the universe. Wait—you already are.",
+      "My baby vs. today's problems: baby is going to win. I have decided. No appeals.",
+      "I wish I could bring you a snack, a hug, and a little forehead kiss right now.",
+      "Small steps still count, baby. Progress is progress, even when it's not glamorous.",
+      "You have survived 100% of your hard days so far. That's a pretty impressive record. 💪",
+      "Pause for a second: drop your shoulders, relax your face, take one slow breath. MWAH.",
+      "Your girlfriend's daily report: you are cute, you are loved, and you should keep going. ♡",
+      "Baby, don't forget that work is something you do. It isn't all that you are.",
+      "The next good thing might be closer than you think. Until then, I'm right here cheering for you.",
+      "If I were there, I'd hold up a tiny sign that says: THAT'S MY BABYYYY!! 🥹"
+    ];
+    const specials = {
+      hug: ["HUGGIES TIME!! 🫂 Imagine me squeezing you so tight all the stress has to leave your body.","*runs over with tiny arms wide open* BABYYYY COME HERE. You are so loved.","Virtual hug delivered! Hold for 5 seconds. No refunds. 💗"],
+      kiss: ["MWAH MWAH MWAH 💋 Kiss delivery complete. You may now return to being brilliant.","*blows a million kisses through the screen* Catch them all, baby!","One kiss for courage, one for luck, and one because I miss you. 😚"],
+      stress: ["Okay baby, pause. One slow breath. You only need to handle the next thing, not everything at once. I'm proud of you.","Stressful moment, not a stressful forever. I'm here, baby. Let's take it one step at a time. 💗","If I were there, I'd bring you a hug and remind you that you don't have to be perfect to be amazing."]
+    };
+    let bag = [], remaining = 180, last = "";
+    const messageEl = document.getElementById("message");
+    const countdownEl = document.getElementById("countdown");
+    const bar = document.getElementById("bar");
+    function refillBag() {
+      bag = [...messages];
+      for (let i = bag.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [bag[i], bag[j]] = [bag[j], bag[i]];
+      }
+      if (bag.length > 1 && bag[bag.length - 1] === last) [bag[0], bag[bag.length - 1]] = [bag[bag.length - 1], bag[0]];
+    }
+    function showMessage(text) {
+      messageEl.textContent = text;
+      last = text;
+      popHearts();
+    }
+    function nextMessage() {
+      if (!bag.length) refillBag();
+      showMessage(bag.pop());
+      remaining = 180;
+    }
+    function special(kind) {
+      const choices = specials[kind];
+      showMessage(choices[Math.floor(Math.random() * choices.length)]);
+      remaining = 180;
+    }
+    function popHearts() {
+      const symbols = ["💗","💕","✨","💖","♡"];
+      for (let i=0;i<5;i++) {
+        const el = document.createElement("span");
+        el.className = "spark"; el.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+        el.style.left = (20 + Math.random()*60) + "vw";
+        el.style.top = (45 + Math.random()*35) + "vh";
+        document.body.appendChild(el); setTimeout(()=>el.remove(),950);
+      }
+    }
+    document.getElementById("hug").addEventListener("click",()=>special("hug"));
+    document.getElementById("kiss").addEventListener("click",()=>special("kiss"));
+    document.getElementById("stress").addEventListener("click",()=>special("stress"));
+    const reasonsButton = document.getElementById("reasons");
+    const reasonsPanel = document.getElementById("reasons-panel");
+    reasonsButton.addEventListener("click",()=>{
+      const opening = reasonsPanel.hidden;
+      reasonsPanel.hidden = !opening;
+      reasonsButton.setAttribute("aria-expanded", String(opening));
+      reasonsButton.textContent = opening ? "💗 Close our little secret" : "🔐 A little secret… tap for 10 reasons I love you";
+      if (opening) {
+        reasonsPanel.scrollIntoView({behavior:"smooth", block:"nearest"});
+        popHearts();
+      }
+    });
+    setInterval(()=>{
+      remaining--;
+      if (remaining <= 0) nextMessage();
+      const m = String(Math.floor(remaining/60)).padStart(2,"0");
+      const s = String(remaining%60).padStart(2,"0");
+      countdownEl.textContent = `${m}:${s}`;
+      bar.style.width = (remaining/180*100) + "%";
+    },1000);
+    refillBag();
+    showMessage(messages[0]);
+  </script>
+</body>
+</html>

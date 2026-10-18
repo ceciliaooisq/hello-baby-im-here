@@ -86,11 +86,15 @@ h1{font-size:1.8rem}.intro{font-size:.86rem}.bubble{font-size:.96rem;padding:13p
 @keyframes floatAround{0%,100%{transform:translate(0,0) rotate(-4deg)}25%{transform:translate(10px,35px) rotate(4deg)}50%{transform:translate(0,105px) rotate(-3deg)}75%{transform:translate(10px,55px) rotate(4deg)}}
 }
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+@media(max-width:680px){.live-toolbar{justify-content:center}.live-open{font-size:.7rem}.live-auth-card,.live-card{padding:18px}}
+
 </style>
 </head>
 <body>
 <main class="page">
   <header class="topbar"><div class="logo">💗 BABY.EXE — running for you</div><div class="status">♡ your tiny desk buddy ♡</div></header>
+
   <section class="scene" aria-label="A little digital photo frame for your desk">
     <div class="frame-top"><span>我最喜欢的人 ♡</span><span>加油 my handsome boy! ♡</span></div>
     <div class="frame-bow">🎀</div>
@@ -141,6 +145,7 @@ h1{font-size:1.8rem}.intro{font-size:.86rem}.bubble{font-size:.96rem;padding:13p
     <div id="popup-content"><div class="hug-emoji">🫂</div><div class="hug-caption">HUGGGG ♡</div></div>
   </div>
 </div>
+
 <script>
 const messages = [
 "关关难过关关过",
@@ -171,11 +176,21 @@ kiss:["我爱你baby"],
 stress:["FKKKKKKKKK"]
 };
 let bag=[],remaining=180;
+const MESSAGE_INTERVAL_MS=180000;
+const MESSAGE_DEADLINE_KEY="babyMessageDeadline";
+function getMessageDeadline(){
+  const stored=Number(localStorage.getItem(MESSAGE_DEADLINE_KEY));
+  if(stored && stored>Date.now()) return stored;
+  const deadline=Date.now()+MESSAGE_INTERVAL_MS;
+  localStorage.setItem(MESSAGE_DEADLINE_KEY,String(deadline));
+  return deadline;
+}
+let messageDeadline=getMessageDeadline();
 const messageEl=document.getElementById("message"),countdownEl=document.getElementById("countdown"),bar=document.getElementById("bar");
 function shuffle(){bag=[...messages];for(let i=bag.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[bag[i],bag[j]]=[bag[j],bag[i]];}if(bag.length>1&&bag[bag.length-1]===messageEl.textContent)[bag[0],bag[bag.length-1]]=[bag[bag.length-1],bag[0]];}
 function hearts(){const symbols=["💗","💕","✨","♡","🥐"];for(let i=0;i<6;i++){const e=document.createElement("span");e.className="spark";e.textContent=symbols[Math.floor(Math.random()*symbols.length)];e.style.left=(12+Math.random()*76)+"vw";e.style.top=(25+Math.random()*60)+"vh";document.body.appendChild(e);setTimeout(()=>e.remove(),950);}}
 function show(t){messageEl.textContent=t;hearts();}
-function next(){if(!bag.length)shuffle();show(bag.pop());remaining=180;}
+function next(){if(!bag.length)shuffle();show(bag.pop());remaining=180;messageDeadline=Date.now()+MESSAGE_INTERVAL_MS;localStorage.setItem(MESSAGE_DEADLINE_KEY,String(messageDeadline));}
 function special(k){const a=specials[k];messageEl.textContent=a[Math.floor(Math.random()*a.length)];hearts();}
 const actionPopup=document.getElementById("action-popup");
 const popupTitle=document.getElementById("popup-title");
@@ -217,7 +232,11 @@ const reasons=[
 "You made a brave decision for us and you are trying your best to go through this hardship for us.",
 "You remember the little things I tell you."
 ];
-let reasonIndex=0,reasonUnlockAt=0,reasonInterval=null;
+const REASON_INDEX_KEY="babyReasonIndex";
+const REASON_DEADLINE_KEY="babyReasonDeadline";
+let reasonIndex=Number(localStorage.getItem(REASON_INDEX_KEY)||"0");
+if(!Number.isFinite(reasonIndex)||reasonIndex<0||reasonIndex>10)reasonIndex=0;
+let reasonUnlockAt=Number(localStorage.getItem(REASON_DEADLINE_KEY)||"0"),reasonInterval=null;
 function reasonCountdown(){
   const left=Math.max(0,Math.ceil((reasonUnlockAt-Date.now())/1000));
   if(left<=0){
@@ -233,10 +252,12 @@ function revealNextReason(){
   if((nextReason.disabled && reasonIndex>0)||reasonIndex>=reasons.length)return;
   reasonCard.textContent=reasons[reasonIndex];
   reasonIndex++;
+  localStorage.setItem(REASON_INDEX_KEY,String(reasonIndex));
   reasonCount.textContent=reasonIndex+" / 10 reasons revealed";
   hearts();
   if(reasonIndex>=reasons.length){nextReason.disabled=true;nextReason.textContent="All 10 revealed";return;}
   reasonUnlockAt=Date.now()+180000;
+  localStorage.setItem(REASON_DEADLINE_KEY,String(reasonUnlockAt));
   reasonCountdown();
   if(reasonInterval)clearInterval(reasonInterval);
   reasonInterval=setInterval(reasonCountdown,1000);
@@ -257,8 +278,28 @@ rb.addEventListener("click",()=>{
   }
 });
 nextReason.addEventListener("click",revealNextReason);
+// Restore the reason sequence and remaining wait across browser closes/reloads.
+if(reasonIndex>0){
+  reasonCard.textContent=reasons[reasonIndex-1];
+  reasonCount.textContent=reasonIndex+" / 10 reasons revealed";
+  if(reasonIndex>=reasons.length){nextReason.disabled=true;nextReason.textContent="All 10 revealed";}
+  else if(reasonUnlockAt>Date.now()){reasonCountdown();reasonInterval=setInterval(reasonCountdown,1000);}
+  else {nextReason.disabled=false;nextReason.textContent="Reveal next reason ♡";}
+}
 shuffle();messageEl.textContent=messages[0];
-setInterval(()=>{remaining--;if(remaining<=0)next();countdownEl.textContent=String(Math.floor(remaining/60)).padStart(2,"0")+":"+String(remaining%60).padStart(2,"0");bar.style.width=(remaining/180*100)+"%";},1000);
+function updateMessageCountdown(){
+  remaining=Math.max(0,Math.ceil((messageDeadline-Date.now())/1000));
+  if(remaining<=0){next();}
+  countdownEl.textContent=String(Math.floor(remaining/60)).padStart(2,"0")+":"+String(remaining%60).padStart(2,"0");
+  bar.style.width=(remaining/180*100)+"%";
+}
+updateMessageCountdown();
+setInterval(updateMessageCountdown,1000);
+window.addEventListener("pageshow",updateMessageCountdown);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)updateMessageCountdown();});
+
+
+
 </script>
 </body>
 </html>
